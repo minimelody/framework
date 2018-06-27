@@ -2,6 +2,7 @@ package org.kh.student.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,15 +11,15 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.kh.student.model.dao.StudentDAOImpl;
 import org.kh.student.model.vo.Student;
 
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl{
 
-	@Override
+
 	public Student selectStudent() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public int insertStudent() {
 		SqlSession session = getSqlSession(); 
 		//getSqlSession 메소드를 통해 SqlSession 값을 리턴
@@ -86,6 +87,40 @@ public class StudentServiceImpl implements StudentService{
 			session.rollback();
 		}
 		return result;
+	}
+
+	public int updateStudent(Student vo) {
+		SqlSession session = getSqlSession(); //세션 객체를 가져옴 (커넥션객체)
+		int result = new StudentDAOImpl().updateStudent(session,vo);
+		if(result>0) {
+			session.commit();
+		}else {
+			session.rollback();
+		}
+		return result;
+	}
+
+	public int deleteStudent(int studentNo) {
+		SqlSession session = getSqlSession();
+		int result = new StudentDAOImpl().deleteStudent(session,studentNo);
+		if(result>0) {
+			session.commit();
+		}else {
+			session.rollback();
+		}
+		return result;
+	}
+
+	public Student selectOneStudent(int studentNo) {
+		SqlSession session = getSqlSession(); //세션 객체를 가져옴(커넥션 객체)
+		Student std = new StudentDAOImpl().selectOneStudent(session,studentNo);
+		return std;
+	}
+
+	public ArrayList<Student> selectAllStudent() {
+		SqlSession session = getSqlSession();
+		ArrayList<Student> list = new StudentDAOImpl().selectAllStudent(session);
+		return list;
 	}
 
 }
