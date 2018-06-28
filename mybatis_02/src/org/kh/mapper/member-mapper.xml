@@ -19,4 +19,30 @@
   reg_date as regDate
   from users where user_id=#{userId} and user_pw=#{userPw}
   </select>
+  <insert id="test3" parameterType="org.kh.member.model.vo.Member">
+  insert into users values(#{userId},#{userPw},#{userNick},#{userTel},default)
+  </insert>
+  <select id="test4" resultType="org.kh.member.model.vo.Member">
+  select
+  user_id as userId,
+  user_pw as userPw,
+  user_nick as userNick,
+  user_tel as userTel,
+  reg_date as regDate
+  from users where user_id=#{userId} and user_pw=#{userPw}
+  </select>
+  <delete id="test5" parameterType="org.kh.member.model.vo.Member">
+  delete from users where user_id=#{userId} and user_pw=#{userPw}
+  </delete>
+  <select id="test6" resultType="org.kh.member.model.vo.Member">
+  select
+  user_id as userId,
+  user_pw as userPw,
+  user_nick as userNick,
+  user_tel as userTel
+  from users
+  </select>
+  <update id="test7" parameterType="org.kh.member.model.vo.Member">
+  update users set user_pw=#{userPw},user_nick=#{userNick},user_tel=#{userTel} where user_id=#{userId}
+  </update>
 </mapper>

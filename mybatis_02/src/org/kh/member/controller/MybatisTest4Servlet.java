@@ -13,16 +13,16 @@ import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MybatisTest2Servlet
+ * Servlet implementation class MybatisTest4Servlet
  */
-@WebServlet(name = "MybatisTest2", urlPatterns = { "/mybatisTest2" })
-public class MybatisTest2Servlet extends HttpServlet {
+@WebServlet(name = "MybatisTest4", urlPatterns = { "/mybatisTest4" })
+public class MybatisTest4Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest2Servlet() {
+    public MybatisTest4Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,12 +35,10 @@ public class MybatisTest2Servlet extends HttpServlet {
 		Member m = new Member();
 		m.setUserId(request.getParameter("userId"));
 		m.setUserPw(request.getParameter("userPw"));
-
-		m = new MemberServiceImpl().selectOne(m);
+		m = new MemberServiceImpl().updateMember(m);
 		response.setContentType("text/html; charset=utf-8");
-		if(m!=null)
-		{
-			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberInfo.jsp");
+		if(m!=null) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberUpdate.jsp");
 			request.setAttribute("member", m);
 			view.forward(request, response);
 		}else {

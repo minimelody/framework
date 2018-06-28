@@ -1,8 +1,6 @@
 package org.kh.member.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +11,16 @@ import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MybatisTest2Servlet
+ * Servlet implementation class MybatisTest5Servlet
  */
-@WebServlet(name = "MybatisTest2", urlPatterns = { "/mybatisTest2" })
-public class MybatisTest2Servlet extends HttpServlet {
+@WebServlet(name = "MybatisTest5", urlPatterns = { "/mybatisTest5" })
+public class MybatisTest5Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest2Servlet() {
+    public MybatisTest5Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,17 +33,14 @@ public class MybatisTest2Servlet extends HttpServlet {
 		Member m = new Member();
 		m.setUserId(request.getParameter("userId"));
 		m.setUserPw(request.getParameter("userPw"));
-
-		m = new MemberServiceImpl().selectOne(m);
-		response.setContentType("text/html; charset=utf-8");
-		if(m!=null)
-		{
-			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberInfo.jsp");
-			request.setAttribute("member", m);
-			view.forward(request, response);
+		int result = new MemberServiceImpl().deleteMember(m);
+		response.setContentType("text/html;charset=utf-8");
+		if(result>0) {
+			response.getWriter().println("성공");
 		}else {
-			response.getWriter().println("일치하는 회원이 없습니다");
+			response.getWriter().println("실패");
 		}
+		
 	}
 
 	/**

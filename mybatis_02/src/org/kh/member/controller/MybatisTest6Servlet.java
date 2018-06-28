@@ -1,6 +1,6 @@
 package org.kh.member.controller;
 
-import java.io.IOException;
+import java.io.IOException;import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,16 +13,16 @@ import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MybatisTest2Servlet
+ * Servlet implementation class MybatisTest6Servlet
  */
-@WebServlet(name = "MybatisTest2", urlPatterns = { "/mybatisTest2" })
-public class MybatisTest2Servlet extends HttpServlet {
+@WebServlet(name = "MybatisTest6", urlPatterns = { "/mybatisTest6" })
+public class MybatisTest6Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest2Servlet() {
+    public MybatisTest6Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +31,13 @@ public class MybatisTest2Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Member m = new Member();
-		m.setUserId(request.getParameter("userId"));
-		m.setUserPw(request.getParameter("userPw"));
-
-		m = new MemberServiceImpl().selectOne(m);
-		response.setContentType("text/html; charset=utf-8");
-		if(m!=null)
-		{
-			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberInfo.jsp");
-			request.setAttribute("member", m);
+		ArrayList<Member> list = new MemberServiceImpl().selectAllMember();
+		if(!list.isEmpty()) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberAll.jsp");
+			request.setAttribute("list", list);
 			view.forward(request, response);
 		}else {
-			response.getWriter().println("일치하는 회원이 없습니다");
+			response.getWriter().println("검색하지 못하였습니다.");
 		}
 	}
 

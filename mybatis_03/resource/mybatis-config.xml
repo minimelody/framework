@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-
 	<typeAliases>
-		<typeAlias type="org.kh.student.model.vo.Student" alias="student"/>
+		<typeAlias type="org.kh.users.model.vo.User" alias="user"/>
+		<typeAlias type="org.kh.users.model.vo.Check" alias="check"/>
+		<typeAlias type="org.kh.users.model.vo.Search" alias="search"/>
 	</typeAliases>
 
 	<environments default="development">
@@ -19,6 +20,6 @@
 	</environments>
 	
 	<mappers>
-		<mapper resource="org/kh/mapper/student-mapper.xml"/>
+		<mapper resource="/mapper/users-mapper.xml"/>
 	</mappers>
 </configuration>

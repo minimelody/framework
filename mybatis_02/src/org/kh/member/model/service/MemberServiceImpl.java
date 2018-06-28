@@ -2,6 +2,7 @@ package org.kh.member.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -34,8 +35,53 @@ public class MemberServiceImpl{
 
 	public Member selectOne(Member m) {
 		SqlSession session = getSqlSession();
-		Member m = new MemberDAOImpl().selectOne(session, m);
-		return m;
+		Member m1 = new MemberDAOImpl().selectOne(session, m);
+		return m1;
+	}
+
+	public int insertMember(Member m) {
+		SqlSession session = getSqlSession();
+		int result = new MemberDAOImpl().insertMember(session,m);
+		if(result>0) {
+			session.commit();
+		}else {
+			session.rollback();
+		}
+		return result;
+	}
+
+	public Member updateMember(Member m) {
+		SqlSession session = getSqlSession();
+		Member m2 = new MemberDAOImpl().updateMember(session,m);
+		return m2;
+	}
+
+	public int deleteMember(Member m) {
+		SqlSession session = getSqlSession();
+		int result = new MemberDAOImpl().deleteMember(session,m);
+		if(result>0) {
+			session.commit();
+		}else {
+			session.rollback();
+		}
+		return result;
+	}
+
+	public ArrayList<Member> selectAllMember() {
+		SqlSession session = getSqlSession();
+		ArrayList<Member> list = new MemberDAOImpl().selectAllMember(session);
+		return list;
+	}
+
+	public int updateMemberTwo(Member m) {
+		SqlSession session = getSqlSession();
+		int result = new MemberDAOImpl().updateMemberTwo(session,m);
+		if(result>0) {
+			session.commit();
+		}else {
+			session.rollback();
+		}
+		return result;
 	}
 
 
