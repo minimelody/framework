@@ -1,6 +1,8 @@
 package org.kh.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
+import org.kh.member.model.vo.Search;
 
 /**
- * Servlet implementation class MybatisTest7Servlet
+ * Servlet implementation class Search1Servlet
  */
-@WebServlet(name = "MybatisTest7", urlPatterns = { "/mybatisTest7" })
-public class MybatisTest7Servlet extends HttpServlet {
+@WebServlet(name = "Search1", urlPatterns = { "/search1" })
+public class Search1Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest7Servlet() {
+    public Search1Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,22 +33,20 @@ public class MybatisTest7Servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		Member m = new Member();
-		m.setUserId(request.getParameter("userId"));
-		m.setUserPw(request.getParameter("userPw"));
-		m.setUserNick(request.getParameter("userNick"));
-		m.setUserTel(request.getParameter("userTel"));
-
-		int result = new MemberServiceImpl().updateMemberTwo(m);
+		String searchRadio = request.getParameter("searchRadio");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
-		response.setContentType("text/html; charset=utf-8");
-		if(result>0) {
-			response.getWriter().println("성공");
+		Search search = new Search(searchRadio,searchKeyword);
+		
+		ArrayList<Member> list = new MemberServiceImpl().searchMemberList(search);
+		
+		response.setContentType("text/html;charset=utf-8");
+		if(!list.isEmpty()) {
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("/views/member/checkList.jsp").forward(request, response);
 		}else {
 			response.getWriter().println("실패");
 		}
-		
-		
 	}
 
 	/**

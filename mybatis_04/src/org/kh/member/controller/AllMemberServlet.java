@@ -1,6 +1,9 @@
 package org.kh.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +14,16 @@ import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MybatisTest7Servlet
+ * Servlet implementation class AllMemberServlet
  */
-@WebServlet(name = "MybatisTest7", urlPatterns = { "/mybatisTest7" })
-public class MybatisTest7Servlet extends HttpServlet {
+@WebServlet(name = "AllMember", urlPatterns = { "/allMember" })
+public class AllMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest7Servlet() {
+    public AllMemberServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +32,14 @@ public class MybatisTest7Servlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		Member m = new Member();
-		m.setUserId(request.getParameter("userId"));
-		m.setUserPw(request.getParameter("userPw"));
-		m.setUserNick(request.getParameter("userNick"));
-		m.setUserTel(request.getParameter("userTel"));
-
-		int result = new MemberServiceImpl().updateMemberTwo(m);
-		
-		response.setContentType("text/html; charset=utf-8");
-		if(result>0) {
-			response.getWriter().println("성공");
+		ArrayList<Member> list = new MemberServiceImpl().allMember();
+		if(!list.isEmpty()) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/allMember.jsp");
+			request.setAttribute("list", list);
+			view.forward(request, response);	
 		}else {
 			response.getWriter().println("실패");
 		}
-		
-		
 	}
 
 	/**

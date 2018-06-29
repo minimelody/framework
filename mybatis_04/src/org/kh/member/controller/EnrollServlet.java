@@ -11,16 +11,16 @@ import org.kh.member.model.service.MemberServiceImpl;
 import org.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MybatisTest7Servlet
+ * Servlet implementation class EnrollServlet
  */
-@WebServlet(name = "MybatisTest7", urlPatterns = { "/mybatisTest7" })
-public class MybatisTest7Servlet extends HttpServlet {
+@WebServlet(name = "Enroll", urlPatterns = { "/enroll" })
+public class EnrollServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MybatisTest7Servlet() {
+    public EnrollServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +31,33 @@ public class MybatisTest7Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		Member m = new Member();
-		m.setUserId(request.getParameter("userId"));
-		m.setUserPw(request.getParameter("userPw"));
-		m.setUserNick(request.getParameter("userNick"));
-		m.setUserTel(request.getParameter("userTel"));
-
-		int result = new MemberServiceImpl().updateMemberTwo(m);
+		m.setMemberId(request.getParameter("memberId"));
+		m.setMemberPw(request.getParameter("memberPw"));
+		m.setMemberName(request.getParameter("memberName"));
+		m.setMemberAddr(request.getParameter("memberAddr"));
+		m.setGender(request.getParameter("gender"));
 		
+		
+		String hobbys [] = request.getParameterValues("hobby");
+		String hobby = "";
+		
+		for(int i=0;i<hobbys.length;i++) {
+			hobby += hobbys[i];
+			if(hobbys.length-1!=i) {
+				hobby += ",";
+			}
+		}
+		
+		m.setHobby(hobby);
+	
+		
+		int result = new MemberServiceImpl().enroll(m);
 		response.setContentType("text/html; charset=utf-8");
 		if(result>0) {
 			response.getWriter().println("성공");
 		}else {
 			response.getWriter().println("실패");
 		}
-		
-		
 	}
 
 	/**
